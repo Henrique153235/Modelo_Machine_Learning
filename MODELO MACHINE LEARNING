@@ -1,0 +1,240 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "32bf72bd-cee8-4293-adcf-d595a582cbea",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Defaulting to user installation because normal site-packages is not writeable\n",
+      "Requirement already satisfied: pandas in ./.local/lib/python3.13/site-packages (3.0.2)\n",
+      "Requirement already satisfied: numpy in ./.local/lib/python3.13/site-packages (2.4.4)\n",
+      "Requirement already satisfied: scikit-learn in ./.local/lib/python3.13/site-packages (1.8.0)\n",
+      "Requirement already satisfied: matplotlib in ./.local/lib/python3.13/site-packages (3.10.9)\n",
+      "Requirement already satisfied: seaborn in ./.local/lib/python3.13/site-packages (0.13.2)\n",
+      "Requirement already satisfied: ipywidgets in ./.local/lib/python3.13/site-packages (8.1.8)\n",
+      "Requirement already satisfied: python-dateutil>=2.8.2 in ./.local/lib/python3.13/site-packages (from pandas) (2.9.0.post0)\n",
+      "Requirement already satisfied: scipy>=1.10.0 in ./.local/lib/python3.13/site-packages (from scikit-learn) (1.17.1)\n",
+      "Requirement already satisfied: joblib>=1.3.0 in ./.local/lib/python3.13/site-packages (from scikit-learn) (1.5.3)\n",
+      "Requirement already satisfied: threadpoolctl>=3.2.0 in ./.local/lib/python3.13/site-packages (from scikit-learn) (3.6.0)\n",
+      "Requirement already satisfied: contourpy>=1.0.1 in ./.local/lib/python3.13/site-packages (from matplotlib) (1.3.3)\n",
+      "Requirement already satisfied: cycler>=0.10 in ./.local/lib/python3.13/site-packages (from matplotlib) (0.12.1)\n",
+      "Requirement already satisfied: fonttools>=4.22.0 in ./.local/lib/python3.13/site-packages (from matplotlib) (4.62.1)\n",
+      "Requirement already satisfied: kiwisolver>=1.3.1 in ./.local/lib/python3.13/site-packages (from matplotlib) (1.5.0)\n",
+      "Requirement already satisfied: packaging>=20.0 in /usr/lib/python3/dist-packages (from matplotlib) (25.0)\n",
+      "Requirement already satisfied: pillow>=8 in ./.local/lib/python3.13/site-packages (from matplotlib) (12.2.0)\n",
+      "Requirement already satisfied: pyparsing>=3 in ./.local/lib/python3.13/site-packages (from matplotlib) (3.3.2)\n",
+      "Requirement already satisfied: comm>=0.1.3 in ./.local/lib/python3.13/site-packages (from ipywidgets) (0.2.3)\n",
+      "Requirement already satisfied: ipython>=6.1.0 in ./.local/lib/python3.13/site-packages (from ipywidgets) (9.13.0)\n",
+      "Requirement already satisfied: traitlets>=4.3.1 in ./.local/lib/python3.13/site-packages (from ipywidgets) (5.14.3)\n",
+      "Requirement already satisfied: widgetsnbextension~=4.0.14 in ./.local/lib/python3.13/site-packages (from ipywidgets) (4.0.15)\n",
+      "Requirement already satisfied: jupyterlab_widgets~=3.0.15 in ./.local/lib/python3.13/site-packages (from ipywidgets) (3.0.16)\n",
+      "Requirement already satisfied: decorator>=5.1.0 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (5.2.1)\n",
+      "Requirement already satisfied: ipython-pygments-lexers>=1.0.0 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (1.1.1)\n",
+      "Requirement already satisfied: jedi>=0.18.2 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (0.19.2)\n",
+      "Requirement already satisfied: matplotlib-inline>=0.1.6 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (0.2.1)\n",
+      "Requirement already satisfied: pexpect>4.6 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (4.9.0)\n",
+      "Requirement already satisfied: prompt_toolkit<3.1.0,>=3.0.41 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (3.0.52)\n",
+      "Requirement already satisfied: psutil>=7 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (7.2.2)\n",
+      "Requirement already satisfied: pygments>=2.14.0 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (2.20.0)\n",
+      "Requirement already satisfied: stack_data>=0.6.0 in ./.local/lib/python3.13/site-packages (from ipython>=6.1.0->ipywidgets) (0.6.3)\n",
+      "Requirement already satisfied: wcwidth in ./.local/lib/python3.13/site-packages (from prompt_toolkit<3.1.0,>=3.0.41->ipython>=6.1.0->ipywidgets) (0.6.0)\n",
+      "Requirement already satisfied: parso<0.9.0,>=0.8.4 in ./.local/lib/python3.13/site-packages (from jedi>=0.18.2->ipython>=6.1.0->ipywidgets) (0.8.6)\n",
+      "Requirement already satisfied: ptyprocess>=0.5 in ./.local/lib/python3.13/site-packages (from pexpect>4.6->ipython>=6.1.0->ipywidgets) (0.7.0)\n",
+      "Requirement already satisfied: six>=1.5 in ./.local/lib/python3.13/site-packages (from python-dateutil>=2.8.2->pandas) (1.17.0)\n",
+      "Requirement already satisfied: executing>=1.2.0 in ./.local/lib/python3.13/site-packages (from stack_data>=0.6.0->ipython>=6.1.0->ipywidgets) (2.2.1)\n",
+      "Requirement already satisfied: asttokens>=2.1.0 in ./.local/lib/python3.13/site-packages (from stack_data>=0.6.0->ipython>=6.1.0->ipywidgets) (3.0.1)\n",
+      "Requirement already satisfied: pure-eval in ./.local/lib/python3.13/site-packages (from stack_data>=0.6.0->ipython>=6.1.0->ipywidgets) (0.2.3)\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install pandas numpy scikit-learn matplotlib seaborn ipywidgets --break-system-packages\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "2acccb5c-c9c9-47a8-979f-58f82b9f161f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "✅ SUCESSO: Dados realistas gerados e modelo re-treinado!\n",
+      "Agora o peso não dita mais tudo. Vá para a célula da Interface e teste!\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "from sklearn.ensemble import RandomForestClassifier\n",
+    "\n",
+    "# 1. GERANDO NOVOS DADOS COM \"CASOS CONFUSOS\"\n",
+    "np.random.seed(42)\n",
+    "n_amostras = 200 # Aumentamos a base para o treino ser mais \"pesado\"\n",
+    "\n",
+    "# Gatos: agora pesam de 2kg até 20kg (Maine Coons gigantes)\n",
+    "gatos_peso = np.random.uniform(2, 20, n_amostras // 2)\n",
+    "gatos_altura = np.random.uniform(20, 40, n_amostras // 2)\n",
+    "\n",
+    "# Cachorros: agora pesam de 2kg (Chihuahuas) até 45kg\n",
+    "caes_peso = np.random.uniform(2, 45, n_amostras // 2)\n",
+    "caes_altura = np.random.uniform(15, 90, n_amostras // 2)\n",
+    "\n",
+    "# Criando o DataFrame corrigido\n",
+    "df = pd.DataFrame({\n",
+    "    'peso_kg': np.concatenate([gatos_peso, caes_peso]),\n",
+    "    'altura_cm': np.concatenate([gatos_altura, caes_altura]),\n",
+    "    'late': np.concatenate([np.zeros(n_amostras//2), np.ones(n_amostras//2)]),\n",
+    "    'mia': np.concatenate([np.ones(n_amostras//2), np.zeros(n_amostras//2)]),\n",
+    "    'target': np.concatenate([np.zeros(n_amostras//2), np.ones(n_amostras//2)])\n",
+    "})\n",
+    "\n",
+    "# 2. RE-TREINANDO O MODELO\n",
+    "# Agora o peso não é mais o único fator decisivo\n",
+    "X = df[['peso_kg', 'altura_cm', 'late', 'mia']]\n",
+    "y = df['target']\n",
+    "\n",
+    "modelo_final = RandomForestClassifier(n_estimators=100, random_state=42)\n",
+    "modelo_final.fit(X, y)\n",
+    "\n",
+    "print(\"✅ SUCESSO: Dados realistas gerados e modelo re-treinado!\")\n",
+    "print(\"Agora o peso não dita mais tudo. Vá para a célula da Interface e teste!\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "50dd946d-426e-4a79-9e7f-a2a83084b5e1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "✅ SUCESSO: Dados realistas gerados e modelo re-treinado!\n",
+      "Agora o peso não dita mais tudo. Vá para a célula da Interface e teste!\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "from sklearn.ensemble import RandomForestClassifier\n",
+    "\n",
+    "# 1. GERANDO NOVOS DADOS COM \"CASOS CONFUSOS\"\n",
+    "np.random.seed(42)\n",
+    "n_amostras = 200 # Aumentamos a base para o treino ser mais \"pesado\"\n",
+    "\n",
+    "# Gatos: agora pesam de 2kg até 20kg (Maine Coons gigantes)\n",
+    "gatos_peso = np.random.uniform(2, 20, n_amostras // 2)\n",
+    "gatos_altura = np.random.uniform(20, 40, n_amostras // 2)\n",
+    "\n",
+    "# Cachorros: agora pesam de 2kg (Chihuahuas) até 45kg\n",
+    "caes_peso = np.random.uniform(2, 45, n_amostras // 2)\n",
+    "caes_altura = np.random.uniform(15, 90, n_amostras // 2)\n",
+    "\n",
+    "# Criando o DataFrame corrigido\n",
+    "df = pd.DataFrame({\n",
+    "    'peso_kg': np.concatenate([gatos_peso, caes_peso]),\n",
+    "    'altura_cm': np.concatenate([gatos_altura, caes_altura]),\n",
+    "    'late': np.concatenate([np.zeros(n_amostras//2), np.ones(n_amostras//2)]),\n",
+    "    'mia': np.concatenate([np.ones(n_amostras//2), np.zeros(n_amostras//2)]),\n",
+    "    'target': np.concatenate([np.zeros(n_amostras//2), np.ones(n_amostras//2)])\n",
+    "})\n",
+    "\n",
+    "# 2. RE-TREINANDO O MODELO\n",
+    "# Agora o peso não é mais o único fator decisivo\n",
+    "X = df[['peso_kg', 'altura_cm', 'late', 'mia']]\n",
+    "y = df['target']\n",
+    "\n",
+    "modelo_final = RandomForestClassifier(n_estimators=100, random_state=42)\n",
+    "modelo_final.fit(X, y)\n",
+    "\n",
+    "print(\"✅ SUCESSO: Dados realistas gerados e modelo re-treinado!\")\n",
+    "print(\"Agora o peso não dita mais tudo. Vá para a célula da Interface e teste!\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "14a40ac3-0de9-4f7f-b921-0ecc7c606eb3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--- TESTE O SEU MODELO ABAIXO ---\n"
+     ]
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "c25b6b7016d5458abb5ebce1da114cd4",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "VBox(children=(FloatSlider(value=5.0, description='Peso (kg)', max=50.0, min=1.0), FloatSlider(value=25.0, des…"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Criando os componentes\n",
+    "peso_in = widgets.FloatSlider(value=5.0, min=1.0, max=50.0, description='Peso (kg)')\n",
+    "alt_in = widgets.FloatSlider(value=25.0, min=10.0, max=90.0, description='Altura (cm)')\n",
+    "late_in = widgets.Dropdown(options=[('Não', 0), ('Sim', 1)], description='Late?')\n",
+    "mia_in = widgets.Dropdown(options=[('Sim', 1), ('Não', 0)], description='Mia?')\n",
+    "botao = widgets.Button(description='Classificar', button_style='info')\n",
+    "output = widgets.Output()\n",
+    "\n",
+    "def realizar_predicao(b):\n",
+    "    with output:\n",
+    "        clear_output()\n",
+    "        # Captura valores e faz a previsão\n",
+    "        entrada = [[peso_in.value, alt_in.value, late_in.value, mia_in.value]]\n",
+    "        pred = modelo_final.predict(entrada)\n",
+    "        animal = \"🐱 GATO\" if pred[0] == 0 else \"🐶 CACHORRO\"\n",
+    "        print(f\"O modelo diz que é um: {animal}\")\n",
+    "\n",
+    "botao.on_click(realizar_predicao)\n",
+    "\n",
+    "# Exibir tudo\n",
+    "print(\"--- TESTE O SEU MODELO ABAIXO ---\")\n",
+    "display(widgets.VBox([peso_in, alt_in, late_in, mia_in, botao, output]))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
